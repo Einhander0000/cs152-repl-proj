@@ -10,41 +10,35 @@ public class repl {
     static Stack operators = new Stack();
 
 
-    public static void main(String[] args)  throws IOException {
+    public static void main(String[] args) throws IOException {
         System.out.println("Hello World");
         run();
     }
 
-    /*
-    * This runs a console prompt
-    *
-    */
     public static void run() throws IOException {
-
         Scanner myScanner = new Scanner(System.in);
-        while(myScanner.hasNext()) {
+        while (myScanner.hasNext()) {
             tokenizer(myScanner.next());
 //            System.out.println("FIRST: " + myScanner.next() + "\n");
 //            System.out.println("SECOND: " + myScanner.next() + "\n" );
         }
-
         System.out.println(Arrays.toString(variables.toArray()));
-
-
     }
 
-    public static void tokenizer(String token){
+    public static void tokenizer(String token) {
+        double answer = 0;
 
 
-        for (int i = 0; i < token.length(); i++){
+        for (int i = 0; i < token.length(); i++) {
+            Calculators Calculator = new Calculators();
             char c = token.charAt(i);
             //Process char
 
-            if("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c) == 1){
+            if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c) == 1) {
                 variables.add(token);
             }
 
-            switch(token){
+            switch (token) {
                 case "+":
                     symbols.push("+");
                     break;
@@ -62,9 +56,6 @@ public class repl {
             }
 
         }
-
-
-
 
 
     }
