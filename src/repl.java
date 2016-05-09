@@ -18,46 +18,68 @@ public class repl {
     public static void run() throws IOException {
         Scanner myScanner = new Scanner(System.in);
         while (myScanner.hasNext()) {
-            tokenizer(myScanner.next());
-//            System.out.println("FIRST: " + myScanner.next() + "\n");
-//            System.out.println("SECOND: " + myScanner.next() + "\n" );
+            String inputA = myScanner.next();
+            tokenizer(inputA);
         }
-        System.out.println(Arrays.toString(variables.toArray()));
+        System.out.println("THIS IS VARIABLES: " +  Arrays.toString(variables.toArray()));
+        System.out.println("THIS IS SYMBOLS: " + Arrays.toString(symbols.toArray()));
     }
 
     public static void tokenizer(String token) {
         double answer = 0;
 
-
+        /**
+         * This is for more complex tokens
+         */
         for (int i = 0; i < token.length(); i++) {
-            Calculators Calculator = new Calculators();
+            boolean integerFlag = false; //Used to calculate integer places
             char c = token.charAt(i);
             //Process char
 
-            if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c) == 1) {
-                variables.add(token);
+            if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c) != -1) {
+                variables.add(c);
             }
 
-            switch (token) {
-                case "+":
+            if("1234567890".indexOf(c) != -1){
+                variables.add(c);
+            }
+
+            switch (c) {
+                case '+':
                     symbols.push("+");
                     break;
-                case "-":
+                case '-':
                     symbols.push("-");
                     break;
-                case "*":
+                case '*':
                     symbols.push("*");
                     break;
-                case "^":
+                case '^':
                     symbols.push("^");
                     break;
-
-
+                case '=':
+                    symbols.push("=");
+                    break;
+                default:
+                    break;
             }
+
+
 
         }
 
 
+    System.out.println("I'm done!");
     }
-}
 
+    public static void popper(){
+        int output = 0;
+
+        /*If this variable is instance of:*/
+        if(variables.peek() instanceof  Integer){
+
+        }
+    }
+
+
+}
