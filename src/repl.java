@@ -1,4 +1,5 @@
 import com.sun.deploy.util.SystemUtils;
+import jdk.nashorn.internal.runtime.ParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,31 +11,17 @@ public class repl {
 
     static Stack symbols = new Stack();
     static Stack variables = new Stack();
-    static Stack operators = new Stack();
-
-
 
     public static void main(String[] args) throws IOException {
-        run();
-    }
-
-    public static void run() throws IOException {
         Scanner myScanner = new Scanner(System.in);
-        while (myScanner.hasNext()) {
-            String inputA = myScanner.next();
-            tokenizer(inputA);
+        while (myScanner.hasNextLine()) {
+            String inputA = myScanner.nextLine();
+            System.out.println("CURRENT STRING: " + inputA);
+            System.out.println("POSTFIX: " + advancedTokenizer(inputA));
+
         }
-        System.out.println("THIS IS VARIABLES: " +  Arrays.toString(variables.toArray()));
-        System.out.println("THIS IS SYMBOLS: " + Arrays.toString(symbols.toArray()));
-
-        System.out.println("LOOK SIZE: " + variables.size());
-
-//        for(int i = 0; i < variables.size(); i++){
-//            if(variables.peek() instanceof  Integer){
-//                System.out.println("Look an integer: " + variables.get(i));
-//            }
-//        }
     }
+
 
     public static void tokenizer(String token) {
         double answer = 0;
@@ -58,8 +45,8 @@ public class repl {
             }
 
             /*returns the integer value of number and adds it to stack*/
-            if("1234567890".indexOf(c) != -1){
-                if(integerFlag == true) {
+            if ("1234567890".indexOf(c) != -1) {
+                if (integerFlag == true) {
                     /* Checks if it is greater than 9. I.E: 10, 1000, etc. Decimal place calculation
                      * If current index is an integer, check the rest of the token to see if there are any other numbers
                      * that fits the criteria
@@ -71,7 +58,7 @@ public class repl {
                     System.out.println("FIRST IF: CurrentInt: " + currentInt);
                     //variables.add(currentInt);
 
-                }else {
+                } else {
 
                     System.out.println("ENTERED IN ELSE STATEMENT");
                     System.out.println("ELSE STATEMENT: Character.getNumericValue(c): " + Character.getNumericValue(c));
@@ -86,41 +73,41 @@ public class repl {
                 case '+':
                     symbols.push("+");
                     System.out.println("THIS IS THE FINAL INT BEFORE PUSHING: " + currentInt);
-                    if(currentInt != 0 && integerExists){
+                    if (currentInt != 0 && integerExists) {
                         variables.push(currentInt);
                         currentInt = 0;
                     }
                     break;
                 case '-':
                     symbols.push("-");
-                    if(currentInt != 0 && integerExists){
+                    if (currentInt != 0 && integerExists) {
                         variables.push(currentInt);
                         currentInt = 0;
                     }
                     break;
                 case '*':
                     symbols.push("*");
-                    if(currentInt != 0 && integerExists){
+                    if (currentInt != 0 && integerExists) {
                         variables.push(currentInt);
                         currentInt = 0;
                     }
                     break;
                 case '^':
                     symbols.push("^");
-                    if(currentInt != 0 && integerExists){
+                    if (currentInt != 0 && integerExists) {
                         variables.push(currentInt);
                         currentInt = 0;
                     }
                     break;
                 case '=':
                     symbols.push("=");
-                    if(currentInt != 0 && integerExists){
+                    if (currentInt != 0 && integerExists) {
                         variables.push(currentInt);
                         currentInt = 0;
                     }
                     break;
                 case ' ':
-                    if(currentInt != 0 && integerExists){
+                    if (currentInt != 0 && integerExists) {
                         variables.push(currentInt);
                         currentInt = 0;
                     }
@@ -128,21 +115,121 @@ public class repl {
             }
             System.out.println("END ONE FOR LOOP");
         }
-        if(currentInt != 0 && integerExists){
+        if (currentInt != 0 && integerExists) {
             variables.push(currentInt);
             currentInt = 0;
         }
         System.out.println("This is the end dear friends");
     }
 
-    public static void popper(){
+    public static void startPopper() {
         int output = 0;
 
         /*If this variable is instance of:*/
-        if(variables.peek() instanceof  Integer){
+        if (variables.peek() instanceof Integer) {
 
 
         }
+    }
+
+    public static String advancedTokenizer(String input) throws ParserException {
+        StringBuffer postFix = new StringBuffer();
+        Stack operators = new Stack();
+
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            System.out.println("Current c: " + c);
+            /*
+            * This accounts for numbers > 9 I.E: 10, 1000, 12345767, etc.
+            */
+
+            if (c >= '0' && c <= '9') {
+                // process numericals
+                while ((c >= '0' && c <= '9') || c == '.') {
+                    postFix.append(c);
+                    if (i + 1 < input.length()) {
+                        c = input.charAt(++i);
+                    } else {
+                        // abort while loop if we reach end of string
+                        c = 0;
+                        i = input.length();
+                    }
+                }
+                i--;
+            }
+
+
+
+            switch (c) {
+                case ')':
+                    while (!operators.isEmpty() && !operators.peek().equals('(')) {
+                        postFix.append(operators.pop());
+                    }
+                    if (!operators.empty()) {
+                        operators.pop();
+                    }
+                    break;
+                case '(':
+                    operators.push(c);
+                    break;
+                case '+':
+                    if (!operators.empty() && (operators.peek().equals('+') || operators.peek().equals('-') || operators.peek().equals('*') || operators.peek().equals('/') || operators.peek().equals('^'))) {
+                        postFix.append(operators.pop());
+                    }
+                    operators.push(c);
+                    break;
+                case '-':
+                    if (!operators.empty() && (operators.peek().equals('+') || operators.peek().equals('-') || operators.peek().equals('*') || operators.peek().equals('/') || operators.peek().equals('^'))) {
+                        postFix.append(operators.pop());
+                    }
+                    operators.push(c);
+                    break;
+                case '*':
+                    if (!operators.empty() && (operators.peek().equals('*') || operators.peek().equals('/')))
+                    {
+                        postFix.append(operators.pop());
+                    }
+                    operators.push(c);
+                    break;
+                case '/':
+                    if (!operators.empty() && (operators.peek().equals('*') || operators.peek().equals('/')))
+                    {
+                        postFix.append(operators.pop());
+                    }
+                    operators.push(c);
+                    break;
+                case '^':
+                    if (!operators.empty() && operators.peek().equals('^'))
+                    {
+                        postFix.append(operators.pop());
+                    }
+                    operators.push(c);
+                    break;
+                case '=':
+                    /*
+                    * We're going to need to figure out the logic for this part.
+                    * */
+                    break;
+                case ' ':
+                    postFix.append(" ");
+                    break;
+            }
+        }
+
+        if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-^*/()".indexOf(c) != -1) {
+            variables.add(c);
+        }
+
+        while (!operators.empty()) {
+            postFix.append(operators.pop());
+            postFix.append(" ");
+        }
+        // delete the space character at the end of the string wrongly added in above while-loop
+        postFix.deleteCharAt(postFix.length() - 1);
+
+
+        return postFix.toString();
+
     }
 
 
