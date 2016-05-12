@@ -203,7 +203,7 @@ public class repl {
                     postFix.append(" ");
                     break;
                 case '^':
-                    if (!operators.empty() && operators.peek().equals('^')) {
+                    if (!operators.empty()) {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
