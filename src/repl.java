@@ -18,10 +18,8 @@ public class repl {
             String inputA = myScanner.nextLine();
             System.out.println("CURRENT STRING: " + inputA);
             System.out.println("POSTFIX: " + advancedTokenizer(inputA));
-
         }
     }
-
 
     public static void tokenizer(String token) {
         double answer = 0;
@@ -57,9 +55,7 @@ public class repl {
                     System.out.println("NEW CURRENT INT (FIRST IF): " + currentInt);
                     System.out.println("FIRST IF: CurrentInt: " + currentInt);
                     //variables.add(currentInt);
-
                 } else {
-
                     System.out.println("ENTERED IN ELSE STATEMENT");
                     System.out.println("ELSE STATEMENT: Character.getNumericValue(c): " + Character.getNumericValue(c));
                     currentInt = Character.getNumericValue(c);
@@ -135,6 +131,7 @@ public class repl {
     public static String advancedTokenizer(String input) throws ParserException {
         StringBuffer postFix = new StringBuffer();
         Stack operators = new Stack();
+        boolean spacer = false;
 
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
@@ -142,6 +139,8 @@ public class repl {
             /*
             * This accounts for numbers > 9 I.E: 10, 1000, 12345767, etc.
             */
+
+
 
             if (c >= '0' && c <= '9') {
                 // process numericals
@@ -153,9 +152,11 @@ public class repl {
                         // abort while loop if we reach end of string
                         c = 0;
                         i = input.length();
+                        postFix.append(" ");
                     }
                 }
-                i--;
+                postFix.append(" ");
+                //i--;
             }
 
 
@@ -168,21 +169,27 @@ public class repl {
                     if (!operators.empty()) {
                         operators.pop();
                     }
+
+                    postFix.append(" ");
                     break;
                 case '(':
                     operators.push(c);
+                    postFix.append(" ");
                     break;
                 case '+':
                     if (!operators.empty() && (operators.peek().equals('+') || operators.peek().equals('-') || operators.peek().equals('*') || operators.peek().equals('/') || operators.peek().equals('^'))) {
                         postFix.append(operators.pop());
+                        postFix.append(" ");
                     }
                     operators.push(c);
+                    postFix.append(" ");
                     break;
                 case '-':
                     if (!operators.empty() && (operators.peek().equals('+') || operators.peek().equals('-') || operators.peek().equals('*') || operators.peek().equals('/') || operators.peek().equals('^'))) {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
+                    postFix.append(" ");
                     break;
                 case '*':
                     if (!operators.empty() && (operators.peek().equals('*') || operators.peek().equals('/')))
@@ -190,6 +197,7 @@ public class repl {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
+                    postFix.append(" ");
                     break;
                 case '/':
                     if (!operators.empty() && (operators.peek().equals('*') || operators.peek().equals('/')))
@@ -197,6 +205,7 @@ public class repl {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
+                    postFix.append(" ");
                     break;
                 case '^':
                     if (!operators.empty() && operators.peek().equals('^'))
@@ -204,6 +213,7 @@ public class repl {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
+                    postFix.append(" ");
                     break;
                 case '=':
                     /*
@@ -211,21 +221,24 @@ public class repl {
                     * */
                     break;
                 case ' ':
-                    postFix.append(" ");
+                    if(!spacer){
+                        spacer = true;
+                        postFix.append(" ");
+                        break;
+                    }
+                    spacer = false;
                     break;
             }
-
 
 
             /*If there exists a illegal character, throw a Parser Exception*/
             if (("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-^*/()1234567890 ".indexOf(c) == -1) && (c != '\u0000')) {
                 throw new ParserException("Invalid symbol: " + c);
             }
+
+
+
         }
-
-
-
-
 
         while (!operators.empty()) {
             postFix.append(operators.pop());
