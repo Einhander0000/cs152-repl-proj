@@ -214,11 +214,18 @@ public class repl {
                     postFix.append(" ");
                     break;
             }
+
+
+
+            /*If there exists a illegal character, throw a Parser Exception*/
+            if (("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-^*/()1234567890 ".indexOf(c) == -1) && (c != '\u0000')) {
+                throw new ParserException("Invalid symbol: " + c);
+            }
         }
 
-        if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-^*/()".indexOf(c) != -1) {
-            variables.add(c);
-        }
+
+
+
 
         while (!operators.empty()) {
             postFix.append(operators.pop());
