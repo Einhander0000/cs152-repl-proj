@@ -22,6 +22,8 @@ public class repl {
     static Map alphaVariables = new HashMap();
     static StringBuffer alphaCharacter = new StringBuffer();
     static boolean alphaDetected = false; //boolean for alphabet character detected (For user defined function)
+    static String temp1;
+    static String temp2;
 
     public static void main(String[] args) throws IOException {
         Scanner myScanner = new Scanner(System.in);
@@ -178,6 +180,7 @@ public class repl {
         char c;
         double x = 0;
 
+
         Scanner postFixScanner = new Scanner(inputString);
         while (postFixScanner.hasNext()) {
             String input = postFixScanner.next();
@@ -186,10 +189,25 @@ public class repl {
                 x = 0;
                 switch (c) {
                     case '+':
+                        double x1;
+                        double x2;
+                        if(alphaVariables.containsKey(operators.peek())){
+                             x1 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
+                        }
+                        else
+                        {
+                             x1 = Double.valueOf(operators.pop().toString());
+                        }
+                        //System.out.println("THIS IS OUR PEEK  :::" + operators.peek().toString();
 
+                        if(alphaVariables.containsKey(operators.peek().toString())){
+                             x2 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
+                        }
+                        else
+                        {
+                             x2 = Double.valueOf(operators.pop().toString());
+                        }
 
-                        double x1 = Double.valueOf(operators.pop().toString());
-                        double x2 = Double.valueOf(operators.pop().toString());
                         x = x2 + x1;
                         operators.push(x);
                         break;
@@ -221,6 +239,7 @@ public class repl {
                         if(!alphaDetected)
                         {
                             String x11 = String.valueOf(operators.pop().toString());
+
                             String x12 =  String.valueOf(operators.pop().toString());
 
                             System.out.println("x11, x12: " + x11 + ", " + x12);
@@ -231,7 +250,16 @@ public class repl {
                         }
                         else
                         {
-                            throw new ParserException("String to number parsing exception: " + input);
+                            String x11 = String.valueOf(operators.pop().toString());
+                            String x12 =  String.valueOf(operators.pop().toString());
+                            if(alphaVariables.containsKey(x12.toString()))
+                            {
+                                alphaVariables.put(x12, x11);
+                            }
+                            else
+                            {
+                                throw new ParserException("String to number parsing exception: " + input);
+                            }
                         }
                         break;
 
@@ -281,7 +309,7 @@ public class repl {
 
 
 
-                    operators.push(c);
+                    operators.push(sub); //Look?
                     // go on with next token
                     i += j - 1;
                 }
