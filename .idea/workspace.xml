@@ -27,11 +27,10 @@
       <file leaf-file-name="repl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/repl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.8471761">
-              <caret line="358" column="26" selection-start-line="358" selection-start-column="26" selection-end-line="358" selection-end-column="26" />
+            <state vertical-scroll-proportion="-1.3944154">
+              <caret line="145" column="21" selection-start-line="145" selection-start-column="21" selection-end-line="145" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -668,7 +667,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/repl.java</url>
-          <line>177</line>
+          <line>189</line>
           <properties class="repl" method="evaluatePostFix" />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
@@ -688,7 +687,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -707,7 +705,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -726,7 +723,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -745,7 +741,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -764,7 +759,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -783,7 +777,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -802,7 +795,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -821,7 +813,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -832,7 +823,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -843,7 +833,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -854,7 +843,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -865,7 +853,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -943,11 +930,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/repl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.8471761">
-          <caret line="358" column="26" selection-start-line="358" selection-start-column="26" selection-end-line="358" selection-end-column="26" />
+        <state vertical-scroll-proportion="-1.3944154">
+          <caret line="145" column="21" selection-start-line="145" selection-start-column="21" selection-end-line="145" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#advancedTokenizer#0;class#repl#0" expanded="false" />
           </folding>
         </state>
       </provider>

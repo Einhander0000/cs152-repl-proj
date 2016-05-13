@@ -29,7 +29,6 @@ public class repl {
         Scanner myScanner = new Scanner(System.in);
         System.out.println("Enter input:");
         while (myScanner.hasNextLine()) {
-
             String inputA = myScanner.nextLine();
             System.out.println("CURRENT STRING: " + inputA);
             System.out.println("POSTFIX: " + advancedTokenizer(inputA));
@@ -41,13 +40,10 @@ public class repl {
         StringBuffer postFix = new StringBuffer();
         Stack operators = new Stack();
         boolean spacer = false;
-
-
         boolean equalsDeteceted = false; //Detection for assignments.
 
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-            System.out.println("Current c: " + c);
 
             /*
             * This accounts for numbers > 9 I.E: 10, 1000, 12345767, etc.
@@ -80,10 +76,12 @@ public class repl {
 
                     postFix.append(" ");
                     break;
+
                 case '(':
                     operators.push(c);
                     postFix.append(" ");
                     break;
+
                 case '+':
                     if (!operators.empty() && (operators.peek().equals('+') || operators.peek().equals('-') || operators.peek().equals('*') || operators.peek().equals('/') || operators.peek().equals('^'))) {
                         postFix.append(operators.pop());
@@ -92,6 +90,7 @@ public class repl {
                     operators.push(c);
                     postFix.append(" ");
                     break;
+
                 case '-':
                     if (!operators.empty() && (operators.peek().equals('+') || operators.peek().equals('-') || operators.peek().equals('*') || operators.peek().equals('/') || operators.peek().equals('^'))) {
                         postFix.append(operators.pop());
@@ -99,39 +98,48 @@ public class repl {
                     operators.push(c);
                     postFix.append(" ");
                     break;
+
                 case '*':
-                    if (!operators.empty() && (operators.peek().equals('*') || operators.peek().equals('/'))) {
+                    if (!operators.empty() && (operators.peek().equals('*') || operators.peek().equals('/')))
+                    {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
                     postFix.append(" ");
                     break;
+
                 case '/':
-                    if (!operators.empty() && (operators.peek().equals('*') || operators.peek().equals('/'))) {
+                    if (!operators.empty() && (operators.peek().equals('*') || operators.peek().equals('/')))
+                    {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
                     postFix.append(" ");
                     break;
                 case '^':
-                    if (!operators.empty()) {
+                    if (!operators.empty())
+                    {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
                     postFix.append(" ");
                     break;
+
                 case '=':
                     /*
                     * We're going to need to figure out the logic for this part.
                     * */
-                    if (!operators.empty()) {
+                    if (!operators.empty())
+                    {
                         postFix.append(operators.pop());
                     }
                     operators.push(c);
                     postFix.append(" ");
                     break;
+
                 case ' ':
-                    if (!spacer) {
+                    if (!spacer)
+                    {
                         spacer = true;
                         postFix.append(" ");
                         break;
@@ -148,13 +156,16 @@ public class repl {
             /*Check for alphabetical functions*/
             if("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c) != -1)
             {
-
                 //alphaDetected = true;
-                while ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                while ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+                {
                     postFix.append(c);
-                    if (i + 1 < input.length()) {
+                    if (i + 1 < input.length())
+                    {
                         c = input.charAt(++i);
-                    } else {
+                    }
+                    else
+                    {
                         // abort while loop if we reach end of string
                         c = 0;
                         i = input.length();
@@ -165,7 +176,8 @@ public class repl {
                 i--;
             }
         }
-        while (!operators.empty()) {
+        while (!operators.empty())
+        {
             postFix.append(operators.pop());
             postFix.append(" ");
         }
@@ -179,25 +191,28 @@ public class repl {
         Stack operators = new Stack();
         char c;
         double x = 0;
-
         Scanner postFixScanner = new Scanner(inputString);
-        while (postFixScanner.hasNext()) {
+
+        while (postFixScanner.hasNext())
+        {
             String input = postFixScanner.next();
-            for (int i = 0; i < input.length(); i++) {
+            for (int i = 0; i < input.length(); i++)
+            {
                 c = input.charAt(i);
                 x = 0;
-                switch (c) {
+                switch (c)
+                {
                     case '+':
                         double x1;
                         double x2;
-                        if(alphaVariables.containsKey(operators.peek())){
+                        if(alphaVariables.containsKey(operators.peek()))
+                        {
                              x1 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
                         }
                         else
                         {
                              x1 = Double.valueOf(operators.pop().toString());
                         }
-                        //System.out.println("THIS IS OUR PEEK  :::" + operators.peek().toString();
 
                         if(alphaVariables.containsKey(operators.peek().toString())){
                              x2 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
@@ -206,14 +221,15 @@ public class repl {
                         {
                              x2 = Double.valueOf(operators.pop().toString());
                         }
-
                         x = x2 + x1;
                         operators.push(x);
                         break;
+
                     case '-':
                         double x3;
                         double x4;
-                        if(alphaVariables.containsKey(operators.peek())){
+                        if(alphaVariables.containsKey(operators.peek()))
+                        {
                              x3 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
                         }
                         else
@@ -221,7 +237,8 @@ public class repl {
                              x3 = Double.valueOf(operators.pop().toString());
                         }
    
-                        if(alphaVariables.containsKey(operators.peek().toString())){
+                        if(alphaVariables.containsKey(operators.peek().toString()))
+                        {
                              x4 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
                         }
                         else
@@ -231,10 +248,12 @@ public class repl {
                         x = x4 - x3;
                         operators.push(x);
                         break;
+
                     case '*':
                         double x5;
                         double x6;
-                        if(alphaVariables.containsKey(operators.peek())){
+                        if(alphaVariables.containsKey(operators.peek()))
+                        {
                              x5 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
                         }
                         else
@@ -243,7 +262,8 @@ public class repl {
                         }
                         //System.out.println("THIS IS OUR PEEK  :::" + operators.peek().toString();
 
-                        if(alphaVariables.containsKey(operators.peek().toString())){
+                        if(alphaVariables.containsKey(operators.peek().toString()))
+                        {
                              x6 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
                         }
                         else
@@ -253,19 +273,21 @@ public class repl {
                         x = x6 * x5;
                         operators.push(x);
                         break;
+
                     case '/':
                         double x7;
                         double x8;
-                        if(alphaVariables.containsKey(operators.peek())){
+                        if(alphaVariables.containsKey(operators.peek()))
+                        {
                              x7 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
                         }
                         else
                         {
                              x7 = Double.valueOf(operators.pop().toString());
                         }
-                        //System.out.println("THIS IS OUR PEEK  :::" + operators.peek().toString();
 
-                        if(alphaVariables.containsKey(operators.peek().toString())){
+                        if(alphaVariables.containsKey(operators.peek().toString()))
+                        {
                              x8 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
                         }
                         else
@@ -275,19 +297,21 @@ public class repl {
                         x = x8 / x7;
                         operators.push(x);
                         break;
+
                     case '^':
                         double x9;
                         double x10;
-                        if(alphaVariables.containsKey(operators.peek())){
+                        if(alphaVariables.containsKey(operators.peek()))
+                        {
                              x9 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
                         }
                         else
                         {
                              x9 = Double.valueOf(operators.pop().toString());
                         }
-                        //System.out.println("THIS IS OUR PEEK  :::" + operators.peek().toString();
 
-                        if(alphaVariables.containsKey(operators.peek().toString())){
+                        if(alphaVariables.containsKey(operators.peek().toString()))
+                        {
                              x10 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
                         }
                         else
@@ -297,18 +321,15 @@ public class repl {
                         x = Math.pow(x10, x9);
                         operators.push(x);
                         break;
+
                     case '=':
                         if(!alphaDetected)
                         {
                             String x11 = String.valueOf(operators.pop().toString());
-
                             String x12 =  String.valueOf(operators.pop().toString());
-
-                            System.out.println("x11, x12: " + x11 + ", " + x12);
                             alphaVariables.put(x12, x11);
-                            System.out.println("BEFORE PUSH"  + alphaVariables.get(x12).toString());
                             System.out.println("Variable is stored!");
-                            //alphaDetected = true;
+
                         }
                         else
                         {
@@ -324,23 +345,26 @@ public class repl {
                             }
                         }
                         break;
-
                 }
 
-                if (c >= '0' && c <= '9') {
+                if (c >= '0' && c <= '9')
+                {
                     String sub = input.substring(i);
                     int j = 0;
-                    for (j = 0; j < sub.length(); j++) {
-                        if (sub.charAt(j) == ' ') {
+                    for (j = 0; j < sub.length(); j++)
+                    {
+                        if (sub.charAt(j) == ' ')
+                        {
                             sub = sub.substring(0, j);
                         }
                     }
-                    // 'sub' contains now just the number
 
-                    //IF THERE HAS BEEN AN EQUALS DECLARED BEFORE CHECK THIS
-                    try {
+                    try
+                    {
                         x = Double.parseDouble(sub);
-                    } catch (NumberFormatException ex) {
+                    }
+                    catch (NumberFormatException ex)
+                    {
                         throw new ParserException("String to number parsing exception: " + input);
                     }
                     operators.push(x);
@@ -348,30 +372,29 @@ public class repl {
                     i += j - 1;
                 }
 
-                if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+                {
                     String sub = input.substring(i);
                     int j = 0;
-                    for (j = 0; j < sub.length(); j++) {
-                        if (sub.charAt(j) == ' ') {
+                    for (j = 0; j < sub.length(); j++)
+                    {
+                        if (sub.charAt(j) == ' ')
+                        {
                             sub = sub.substring(0, j);
                         }
                     }
-                    // 'sub' contains now just the number
-                    //if(alphaDetected) {
-                    if(alphaVariables.containsKey(sub)){
+
+                    if(alphaVariables.containsKey(sub))
+                    {
                         try
                         {
-                            System.out.println("LETTER IN QUESTION: " + sub);
-                                x = Double.parseDouble(alphaVariables.get(sub).toString());
-
-
-                        } catch (NumberFormatException ex)
+                            x = Double.parseDouble(alphaVariables.get(sub).toString());
+                        }
+                        catch (NumberFormatException ex)
                         {
                             throw new ParserException("String to number parsing exception: " + input);
                         }
                     }
-
-
 
                     operators.push(sub); //Look?
                     // go on with next token
