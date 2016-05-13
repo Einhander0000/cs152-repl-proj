@@ -21,6 +21,7 @@ public class repl {
     static Stack variables = new Stack();
     static Map alphaVariables = new HashMap();
     static StringBuffer alphaCharacter = new StringBuffer();
+    static boolean alphaDetected = false; //boolean for alphabet character detected (For user defined function)
 
     public static void main(String[] args) throws IOException {
         Scanner myScanner = new Scanner(System.in);
@@ -39,7 +40,7 @@ public class repl {
         Stack operators = new Stack();
         boolean spacer = false;
 
-        boolean alphaDetected = false; //boolean for alphabet character detected (For user defined function)
+
         boolean equalsDeteceted = false; //Detection for assignments.
 
         for (int i = 0; i < input.length(); i++) {
@@ -142,9 +143,11 @@ public class repl {
                 throw new ParserException("Invalid symbol: " + c);
             }
 
+            /*Check for alphabetical functions*/
             if("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c) != -1)
             {
-                alphaDetected = true;
+
+                //alphaDetected = true;
                 while ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
                     postFix.append(c);
                     if (i + 1 < input.length()) {
@@ -156,6 +159,8 @@ public class repl {
                         postFix.append(" ");
                     }
                 }
+                postFix.append(" ");
+                i--;
             }
         }
         while (!operators.empty()) {
@@ -167,15 +172,12 @@ public class repl {
         return postFix.toString();
     }
 
-    public static void checkForAssignment(String inputString)
-    {
-
-    }
 
     public static double evaluatePostFix(String inputString) throws ParserException {
         Stack operators = new Stack();
         char c;
         double x = 0;
+
         Scanner postFixScanner = new Scanner(inputString);
         while (postFixScanner.hasNext()) {
             String input = postFixScanner.next();
@@ -184,6 +186,8 @@ public class repl {
                 x = 0;
                 switch (c) {
                     case '+':
+
+
                         double x1 = Double.valueOf(operators.pop().toString());
                         double x2 = Double.valueOf(operators.pop().toString());
                         x = x2 + x1;
@@ -214,7 +218,21 @@ public class repl {
                         operators.push(x);
                         break;
                     case '=':
+                        if(!alphaDetected)
+                        {
+                            String x11 = String.valueOf(operators.pop().toString());
+                            String x12 =  String.valueOf(operators.pop().toString());
 
+                            System.out.println("x11, x12: " + x11 + ", " + x12);
+                            alphaVariables.put(x12, x11);
+                            System.out.println("BEFORE PUSH"  + alphaVariables.get(x12).toString());
+                            System.out.println("Variable is stored!");
+                            alphaDetected = true;
+                        }
+                        else
+                        {
+                            throw new ParserException("String to number parsing exception: " + input);
+                        }
                         break;
 
                 }
@@ -249,12 +267,21 @@ public class repl {
                         }
                     }
                     // 'sub' contains now just the number
-                    try {
-                        x = Double.parseDouble(sub); //DO THE KEY LOOK UP HERE!!!!
-                    } catch (NumberFormatException ex) {
-                        throw new ParserException("String to number parsing exception: " + input);
+                    if(alphaDetected) {
+                        try
+                        {
+                            System.out.println("LETTER IN QUESTION: " + sub);
+                            x = Double.parseDouble(alphaVariables.get(sub).toString());
+
+                        } catch (NumberFormatException ex)
+                        {
+                            throw new ParserException("String to number parsing exception: " + input);
+                        }
                     }
-                    operators.push(x);
+
+
+
+                    operators.push(c);
                     // go on with next token
                     i += j - 1;
                 }
