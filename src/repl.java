@@ -19,6 +19,8 @@ public class repl {
 
     static Stack symbols = new Stack();
     static Stack variables = new Stack();
+    static Map alphaVariables = new HashMap();
+    static StringBuffer alphaCharacter = new StringBuffer();
 
     public static void main(String[] args) throws IOException {
         Scanner myScanner = new Scanner(System.in);
@@ -32,107 +34,13 @@ public class repl {
         }
     }
 
-    public static void tokenizer(String token) {
-        double answer = 0;
-        boolean integerFlag = false; //Used to calculate integer places
-        boolean integerExists = false;
-        int currentInt = 0;
-
-
-        /**
-         * This is for more complex tokens
-         */
-        for (int i = 0; i < token.length(); i++) {
-            System.out.println("CurrentCHAR: " + token.charAt(i));
-            System.out.println("CURRENT INTEGER: " + currentInt);
-
-            char c = token.charAt(i);
-            //Process char
-
-            if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c) != -1) {
-                variables.add(c);
-            }
-
-            /*returns the integer value of number and adds it to stack*/
-            if ("1234567890".indexOf(c) != -1) {
-                if (integerFlag == true) {
-                    /* Checks if it is greater than 9. I.E: 10, 1000, etc. Decimal place calculation
-                     * If current index is an integer, check the rest of the token to see if there are any other numbers
-                     * that fits the criteria
-                     * */
-                    System.out.println("ENTERED IF FIRST IF STATEMENT");
-                    System.out.println("OLD INT(FIRST IF): " + currentInt);
-                    currentInt = (currentInt * 10) + Character.getNumericValue(c);
-                    System.out.println("NEW CURRENT INT (FIRST IF): " + currentInt);
-                    System.out.println("FIRST IF: CurrentInt: " + currentInt);
-                    //variables.add(currentInt);
-                } else {
-                    System.out.println("ENTERED IN ELSE STATEMENT");
-                    System.out.println("ELSE STATEMENT: Character.getNumericValue(c): " + Character.getNumericValue(c));
-                    currentInt = Character.getNumericValue(c);
-                    System.out.println("ELSE STATEMENT: NEW CURRENT INT OLD LOOP: " + currentInt);
-                    integerFlag = true;
-                    integerExists = true;
-                }
-            }
-
-            switch (c) {
-                case '+':
-                    symbols.push("+");
-                    System.out.println("THIS IS THE FINAL INT BEFORE PUSHING: " + currentInt);
-                    if (currentInt != 0 && integerExists) {
-                        variables.push(currentInt);
-                        currentInt = 0;
-                    }
-                    break;
-                case '-':
-                    symbols.push("-");
-                    if (currentInt != 0 && integerExists) {
-                        variables.push(currentInt);
-                        currentInt = 0;
-                    }
-                    break;
-                case '*':
-                    symbols.push("*");
-                    if (currentInt != 0 && integerExists) {
-                        variables.push(currentInt);
-                        currentInt = 0;
-                    }
-                    break;
-                case '^':
-                    symbols.push("^");
-                    if (currentInt != 0 && integerExists) {
-                        variables.push(currentInt);
-                        currentInt = 0;
-                    }
-                    break;
-                case '=':
-                    symbols.push("=");
-                    if (currentInt != 0 && integerExists) {
-                        variables.push(currentInt);
-                        currentInt = 0;
-                    }
-                    break;
-                case ' ':
-                    if (currentInt != 0 && integerExists) {
-                        variables.push(currentInt);
-                        currentInt = 0;
-                    }
-                    break;
-            }
-            System.out.println("END ONE FOR LOOP");
-        }
-        if (currentInt != 0 && integerExists) {
-            variables.push(currentInt);
-            currentInt = 0;
-        }
-        System.out.println("This is the end dear friends");
-    }
-
     public static String advancedTokenizer(String input) throws ParserException {
         StringBuffer postFix = new StringBuffer();
         Stack operators = new Stack();
         boolean spacer = false;
+
+        boolean alphaDetected = false; //boolean for alphabet character detected (For user defined function)
+        boolean equalsDeteceted = false; //Detection for assignments.
 
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
@@ -213,6 +121,11 @@ public class repl {
                     /*
                     * We're going to need to figure out the logic for this part.
                     * */
+                    if (!operators.empty()) {
+                        postFix.append(operators.pop());
+                    }
+                    operators.push(c);
+                    postFix.append(" ");
                     break;
                 case ' ':
                     if (!spacer) {
@@ -224,11 +137,26 @@ public class repl {
                     break;
             }
             /*If there exists a illegal character, throw a Parser Exception*/
-            if (("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-^*/()1234567890 ".indexOf(c) == -1) && (c != '\u0000')) {
+            if (("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-^*/()1234567890= ".indexOf(c) == -1) && (c != '\u0000'))
+            {
                 throw new ParserException("Invalid symbol: " + c);
             }
 
-
+            if("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c) != -1)
+            {
+                alphaDetected = true;
+                while ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                    postFix.append(c);
+                    if (i + 1 < input.length()) {
+                        c = input.charAt(++i);
+                    } else {
+                        // abort while loop if we reach end of string
+                        c = 0;
+                        i = input.length();
+                        postFix.append(" ");
+                    }
+                }
+            }
         }
         while (!operators.empty()) {
             postFix.append(operators.pop());
@@ -237,6 +165,11 @@ public class repl {
         // delete the space character at the end of the string wrongly added in above while-loop
         postFix.deleteCharAt(postFix.length() - 1);
         return postFix.toString();
+    }
+
+    public static void checkForAssignment(String inputString)
+    {
+
     }
 
     public static double evaluatePostFix(String inputString) throws ParserException {
@@ -280,6 +213,10 @@ public class repl {
                         x = Math.pow(x9, x10);
                         operators.push(x);
                         break;
+                    case '=':
+
+                        break;
+
                 }
 
                 if (c >= '0' && c <= '9') {
@@ -291,8 +228,29 @@ public class repl {
                         }
                     }
                     // 'sub' contains now just the number
+
+                    //IF THERE HAS BEEN AN EQUALS DECLARED BEFORE CHECK THIS
                     try {
                         x = Double.parseDouble(sub);
+                    } catch (NumberFormatException ex) {
+                        throw new ParserException("String to number parsing exception: " + input);
+                    }
+                    operators.push(x);
+                    // go on with next token
+                    i += j - 1;
+                }
+
+                if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                    String sub = input.substring(i);
+                    int j = 0;
+                    for (j = 0; j < sub.length(); j++) {
+                        if (sub.charAt(j) == ' ') {
+                            sub = sub.substring(0, j);
+                        }
+                    }
+                    // 'sub' contains now just the number
+                    try {
+                        x = Double.parseDouble(sub); //DO THE KEY LOOK UP HERE!!!!
                     } catch (NumberFormatException ex) {
                         throw new ParserException("String to number parsing exception: " + input);
                     }
