@@ -180,7 +180,6 @@ public class repl {
         char c;
         double x = 0;
 
-
         Scanner postFixScanner = new Scanner(inputString);
         while (postFixScanner.hasNext()) {
             String input = postFixScanner.next();
@@ -212,27 +211,90 @@ public class repl {
                         operators.push(x);
                         break;
                     case '-':
-                        double x3 = Double.valueOf(operators.pop().toString());
-                        double x4 = Double.valueOf(operators.pop().toString());
+                        double x3;
+                        double x4;
+                        if(alphaVariables.containsKey(operators.peek())){
+                             x3 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
+                        }
+                        else
+                        {
+                             x3 = Double.valueOf(operators.pop().toString());
+                        }
+   
+                        if(alphaVariables.containsKey(operators.peek().toString())){
+                             x4 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
+                        }
+                        else
+                        {
+                             x4 = Double.valueOf(operators.pop().toString());
+                        }
                         x = x4 - x3;
                         operators.push(x);
                         break;
                     case '*':
-                        double x5 = Double.valueOf(operators.pop().toString());
-                        double x6 = Double.valueOf(operators.pop().toString());
+                        double x5;
+                        double x6;
+                        if(alphaVariables.containsKey(operators.peek())){
+                             x5 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
+                        }
+                        else
+                        {
+                             x5 = Double.valueOf(operators.pop().toString());
+                        }
+                        //System.out.println("THIS IS OUR PEEK  :::" + operators.peek().toString();
+
+                        if(alphaVariables.containsKey(operators.peek().toString())){
+                             x6 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
+                        }
+                        else
+                        {
+                             x6 = Double.valueOf(operators.pop().toString());
+                        }
                         x = x6 * x5;
                         operators.push(x);
                         break;
                     case '/':
-                        double x7 = Double.valueOf(operators.pop().toString());
-                        double x8 = Double.valueOf(operators.pop().toString());
+                        double x7;
+                        double x8;
+                        if(alphaVariables.containsKey(operators.peek())){
+                             x7 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
+                        }
+                        else
+                        {
+                             x7 = Double.valueOf(operators.pop().toString());
+                        }
+                        //System.out.println("THIS IS OUR PEEK  :::" + operators.peek().toString();
+
+                        if(alphaVariables.containsKey(operators.peek().toString())){
+                             x8 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
+                        }
+                        else
+                        {
+                             x8 = Double.valueOf(operators.pop().toString());
+                        }
                         x = x8 / x7;
                         operators.push(x);
                         break;
                     case '^':
-                        double x9 = Double.valueOf(operators.pop().toString());
-                        double x10 = Double.valueOf(operators.pop().toString());
-                        x = Math.pow(x9, x10);
+                        double x9;
+                        double x10;
+                        if(alphaVariables.containsKey(operators.peek())){
+                             x9 = Double.valueOf(alphaVariables.get(operators.pop()).toString());
+                        }
+                        else
+                        {
+                             x9 = Double.valueOf(operators.pop().toString());
+                        }
+                        //System.out.println("THIS IS OUR PEEK  :::" + operators.peek().toString();
+
+                        if(alphaVariables.containsKey(operators.peek().toString())){
+                             x10 = Double.valueOf(alphaVariables.get(operators.pop().toString()).toString());
+                        }
+                        else
+                        {
+                             x10 = Double.valueOf(operators.pop().toString());
+                        }
+                        x = Math.pow(x10, x9);
                         operators.push(x);
                         break;
                     case '=':
@@ -246,13 +308,13 @@ public class repl {
                             alphaVariables.put(x12, x11);
                             System.out.println("BEFORE PUSH"  + alphaVariables.get(x12).toString());
                             System.out.println("Variable is stored!");
-                            alphaDetected = true;
+                            //alphaDetected = true;
                         }
                         else
                         {
                             String x11 = String.valueOf(operators.pop().toString());
                             String x12 =  String.valueOf(operators.pop().toString());
-                            if(alphaVariables.containsKey(x12.toString()))
+                            if(!alphaVariables.containsKey(x12.toString()))
                             {
                                 alphaVariables.put(x12, x11);
                             }
@@ -295,11 +357,13 @@ public class repl {
                         }
                     }
                     // 'sub' contains now just the number
-                    if(alphaDetected) {
+                    //if(alphaDetected) {
+                    if(alphaVariables.containsKey(sub)){
                         try
                         {
                             System.out.println("LETTER IN QUESTION: " + sub);
-                            x = Double.parseDouble(alphaVariables.get(sub).toString());
+                                x = Double.parseDouble(alphaVariables.get(sub).toString());
+
 
                         } catch (NumberFormatException ex)
                         {
