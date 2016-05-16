@@ -13,8 +13,18 @@ Kevin Bui - 007684183
 CS152 Programming Paradigms Assignment 3
 Instructor: Thaddeus Aid
 Parser Logic take elements from: http://www.sunshine2k.de/coding/java/SimpleParser/SimpleParser.html
+*/
 
- */
+/*
+* HOW TO USE:
+* Treat as if basic map
+* > a = 3
+* > b = 4
+* a * b
+* OUTPUT: 12.0
+*
+* Also supports basic arithmetic math operations.
+*/
 public class repl {
 
     static Stack symbols = new Stack();
@@ -32,10 +42,15 @@ public class repl {
             String inputA = myScanner.nextLine();
             System.out.println("CURRENT STRING: " + inputA);
             System.out.println("POSTFIX: " + advancedTokenizer(inputA));
-            System.out.println("OUTPUT: " + evaluatePostFix(advancedTokenizer(inputA)));
+            System.out.println("CURRENT OUTPUT: " + evaluatePostFix(advancedTokenizer(inputA)));
         }
     }
 
+    /*
+    This parses the user's input. Consolidated into cases and takes care of spaces.
+    Basically formats the input into an easy post-fix string so that it can be easily read by the evaluation
+    function, as that ignores the white-spaces.
+     */
     public static String advancedTokenizer(String input) throws ParserException {
         StringBuffer postFix = new StringBuffer();
         Stack operators = new Stack();
@@ -65,6 +80,9 @@ public class repl {
                 //i--;
             }
 
+            /*
+            Big giant switch block that dictates the post-fix precedence
+             */
             switch (c) {
                 case ')':
                     while (!operators.isEmpty() && !operators.peek().equals('(')) {
@@ -126,9 +144,6 @@ public class repl {
                     break;
 
                 case '=':
-                    /*
-                    * We're going to need to figure out the logic for this part.
-                    * */
                     if (!operators.empty())
                     {
                         postFix.append(operators.pop());
@@ -186,13 +201,16 @@ public class repl {
         return postFix.toString();
     }
 
-
+    /*
+    Takes in the post-fix string and evaluates the expression, returns the results in double.
+     */
     public static double evaluatePostFix(String inputString) throws ParserException {
         Stack operators = new Stack();
         char c;
         double x = 0;
         Scanner postFixScanner = new Scanner(inputString);
 
+        /*Scans through post-fix string, scanner ignores white-space.*/
         while (postFixScanner.hasNext())
         {
             String input = postFixScanner.next();
@@ -200,6 +218,8 @@ public class repl {
             {
                 c = input.charAt(i);
                 x = 0;
+
+                /*Giant switch statement, checks if there exists a assignment for initial if-else blocks*/
                 switch (c)
                 {
                     case '+':
@@ -322,6 +342,9 @@ public class repl {
                         operators.push(x);
                         break;
 
+                    /*Special-Snowflake case where we put variables into a hashmap and keep it on-call in case user asks
+                    for it.
+                    */
                     case '=':
                         if(!alphaDetected)
                         {
